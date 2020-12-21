@@ -16,22 +16,28 @@ print ("File has ", count, " lines")
 
 #Start Outer Loop
 sumfound = False
-x = 0
-while x < count:
+x = 1
+while (x < (count - 2)):
     entry_x = filecontent[x]
-    y = count
-    #start Inner Loop
-    while y > x:
+    y = x + 1
+    #Start Mid Loop
+    while (y < (count - 1)):
         entry_y = filecontent[y]
-        sum_xy = entry_x + entry_y
-        print("Sum of Line ",x," and ",y," :  ",entry_x," + ",entry_y," = ",sum_xy)
-        y -= 1
-        if sum_xy == 2020:
-            y = count
-            x = count
-            sumfound = True
+        z = count
+        #start Inner Loop
+        while z > y:
+            entry_z = filecontent[z]
+            sum_xyz = entry_x + entry_y + entry_z 
+            if sum_xyz == 2020:
+                print("Sum of Line ",x,", ",y,",and ",z,", :  ",entry_x," + ",entry_y,"+",entry_z," = ",sum_xyz)
+                z = count
+                y = count
+                x = count
+                sumfound = True
+            z -= 1
+        y += 1
     x += 1
-if sumfound: print("Product = ",entry_x * entry_y)
+if sumfound: print("Product = ",entry_x * entry_y * entry_z)
 else: print("No lines summed to 2020")
 
 #close file, we're done with it
