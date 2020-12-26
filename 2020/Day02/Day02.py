@@ -22,14 +22,18 @@ while (x <= count):
     min_char = int(entry_x[:entry_x.index("-")]) #pull first number, value before '-'
     max_char = int(entry_x[(entry_x.index("-")+1):entry_x.index(" ")]) #pull second number, value between '-' and first space
     req_char = entry_x[(entry_x.index(" ")+1):entry_x.index(":")] #pull required char, value between first space and ':'
-    pswd = entry_x[(entry_x.index(": "))+2:] #pull password, remaining char after :
-    char_count = int(pswd.count(req_char))
-    if (min_char <= char_count <= max_char):
-        print("\033[32m",x,"\t:", entry_x,"Min: ", min_char, "\tMax: ", max_char,"\tREQ: ", req_char,"\t Password: ",pswd,"\033[0m")
-        valid_pswd += 1
-    else: print("\033[31m",x,"\t:", entry_x,"Min: ", min_char, "\tMax: ", max_char,"\tREQ: ", req_char,"\t Password: ",pswd,"\033[0m")
-    x += 1
+    pswd = entry_x[(entry_x.index(":"))+1:] #pull password, remaining char after ': '
+    pswd = pswd.lstrip()
     
+    # char_count = int(pswd.count(req_char))
+    # if (min_char <= char_count <= max_char):
+    if (((pswd[min_char-1] == req_char) or (pswd[max_char-1] == req_char)) and (pswd[min_char-1] != pswd[max_char-1])):
+        print("\033[32m")
+        valid_pswd += 1
+    else: print("\033[31m")
+
+    print(x,"\t", entry_x,"Min: ", min_char, " [",pswd[min_char-1],"]\tMax: ", max_char, "[", pswd[max_char-1],"]\tREQ: ", req_char,"\t Password: ",pswd,"\033[0m")
+    x += 1
 
 print("There were ", valid_pswd, " valid passwords out of ", count)
 
