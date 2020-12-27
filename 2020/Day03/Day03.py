@@ -14,20 +14,39 @@ while numlines:
     count += 1
 print ("File has ", count, " lines")
 
-x_coord = 1 #x starting point
-x_incr = 3  #x increment
-y_coord = 1 #y starting point
-y_incr = 1  #y increment
 
-tree_cnt = 0
-while (y_coord <= count):
-    entry_x = filecontent[y_coord]
-    if (x_coord > 31): x_coord -= 31                #Map/Pattern is 32 columns
-    if (entry_x[x_coord-1] == "#"): tree_cnt += 1   #increment tree count if # is found 
-    x_coord += x_incr
-    y_coord += y_incr
+path_product = 1
+i = 5
+while (i > 0):
+    x_coord = 1 #x starting point
+    y_coord = 1 #y starting point
+    if (i == 5):
+        x_incr = 1  #x increment
+        y_incr = 1  #y increment
+    if (i == 4):
+        x_incr = 3  #x increment
+        y_incr = 1  #y increment
+    if (i == 3):
+        x_incr = 5  #x increment
+        y_incr = 1  #y increment
+    if (i == 2):
+        x_incr = 7  #x increment
+        y_incr = 1  #y increment
+    if (i == 1):
+        x_incr = 1  #x increment
+        y_incr = 2  #y increment
+        
+    tree_cnt = 0
+    while (y_coord <= count):
+        entry_x = filecontent[y_coord]
+        if (x_coord > 31): x_coord -= 31                #Map/Pattern is 32 columns; 0-31
+        if (entry_x[x_coord-1] == "#"): tree_cnt += 1   #increment tree count if # is found 
+        x_coord += x_incr
+        y_coord += y_incr
 
-print("There were", tree_cnt, "trees down the path")
+    path_product *= tree_cnt
+    print("Path ",i," there were", tree_cnt, " trees\t Product=", path_product)
+    i -= 1
 
 #close file, we're done with it
 print("...Closinging File")
