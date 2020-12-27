@@ -1,0 +1,6 @@
+--- Day 4: Passport Processing ---
+
+Part One:
+    Count the number of valid passports - those that have all required fields. Treat cid as optional. In your batch file, how many passports are valid?
+
+Part Two:
