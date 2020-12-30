@@ -31,58 +31,82 @@ while (i <= count):
             index_feild = passport_all.find(x)
             if (index_feild != -1): field_num += 1
             else: print("\033[31m\tMISSING ", x)
-        if (field_num == 7):
-            byr = passport_all[(passport_all.index("byr:")+4):(passport_all.index("byr:")+4+4)]
-            try: byr.isdigit()
-            except: print ("\033[31m\tINVALID Birth Year (format)\t", byr)
-            else:
-                if ((byr.isdigit()) and (1920 <= int(byr) <= 2002)): field_num += 1
-                else: print ("\033[31m\tINVALID Birth Year (range)\t", byr)
-
-            iyr = passport_all[(passport_all.index("iyr:")+4):(passport_all.index("iyr:")+4+4)]
-            try: (iyr.isdigit)
-            except: print ("\033[31m\tINVALID Issue Year (format)\t", iyr)
-            else:
-                if ((iyr.isdigit) and (2010 <= int(iyr) <= 2020)): field_num += 1
-                else: print ("\033[31m\tINVALID Issue Year (range)\t", iyr)
-
-            eyr = passport_all[(passport_all.index("eyr:")+4):(passport_all.index("eyr:")+4+4)]
-            try: eyr.isdigit()              
-            except: ("\033[31m\tINVALID Expire Year (format)\t", eyr)
-            else:
-                if ((eyr.isdigit()) and (2020 <= int(eyr) <= 2030)): field_num += 1
-                else: print ("\033[31m\tINVALID Expire Year\t", eyr)
-
-            hgt = passport_all[(passport_all.index("hgt:")+4):(passport_all.index("hgt:")+4+5)]
-            if ((hgt.find("cm") != -1) or (hgt.find("in") != -1)):
-                if hgt[hgt.find("cm")-3:hgt.find("cm")].isdigit():
-                    if (150 <= int(hgt[hgt.find("cm")-3:hgt.find("cm")]) <= 193): field_num += 1
-                elif hgt[hgt.find("in")-2:hgt.find("in")].isdigit():
-                    if (59 <= int(hgt[hgt.find("in")-2:hgt.find("in")]) <= 76): field_num += 1
-                else: print ("\033[31m\tINVALID Height (range)\t", hgt)
-            else: print ("\033[31m\tINVALID Height (format)\t\t", hgt)
-
-            hcl = passport_all[(passport_all.index("hcl:")+4):(passport_all.index("hcl:")+4+7)]
-            try:    int(hcl[hcl.index("#")+1:+hcl.index("#")+1+6],16)
-            except: print ("\033[31m\tINVALID Hair Color\t", hcl)
-            else:
-                if (len(hcl) == 7) and (0x000000 <= int(hcl[hcl.find("#")+1:+hcl.find("#")+1+6],16) <= 0xFFFFFF): field_num += 1
-                else: print ("\033[31m\tINVALID Hair Color (range)\t", hcl)
+        if (field_num == 7):            
+            passport_array = passport_all.split(" ")
+            passport_array.sort() # sort list alphabetical
+            if len(passport_array) == 9: passport_array.pop(2)
+            #print(passport_array)
             
-            ecl = passport_all[(passport_all.index("ecl:")+4):(passport_all.index("ecl:")+4+3)]
-            ecl = ecl.lower()
-            valid_ecl = ["amb","blu","brn","gry","grn","hzl","oth"]
-            ecl_found = False
-            for x in valid_ecl: 
-                if (ecl == x): ecl_found = True
-            if ecl_found: field_num += 1
-            else: print ("\033[31m\tINVALID Eye Color\t", ecl)
+            byr = passport_array[1]
+            byr = byr[4:]
+            try: int(byr)
+            except: print("\033[35m\tINVALD Birth Year (Format)\t", byr)
+            else:
+                 if (1920 <= int(byr) <= 2002): field_num += 1
+                 else: print("\033[31m\tINVALD Birth Year (Range)\t", byr)
+                        
+            ecl = passport_array[2]
+            ecl = ecl[4:]
+            colors = ["amb","blu","brn","gry","grn","hzl","oth"]
+            ecl_invalid = True
+            if (len(ecl) == 3):
+                for x in colors:
+                    if (ecl.find(x) != -1):
+                        field_num += 1
+                        ecl_invalid = False
+                if (ecl_invalid): print("\033[31m\tINVALD Eye Color\t\t",ecl)
+            else: print("\033[35m\tINVALD Eye Color (Format)\t", ecl)
+            
+            eyr = passport_array[3]
+            eyr = eyr[4:]
+            try: int(eyr)
+            except: print("\033[35m\tINVALD Expiration Year (Format)\t", eyr)
+            else:
+                 if (2020 <= int(eyr) <= 2030): field_num += 1
+                 else: print("\033[31m\tINVALD Expiration Year (Range)\t", eyr)
 
-            pid = passport_all[(passport_all.index("pid:")+4):(passport_all.index("pid:")+4+9)]
-            pid.rstrip()
-            if (len(pid) == 9) and (pid.isdigit()): field_num += 1
-            else: print ("\033[31m\tINVALID PID\t\t", pid)
-        
+            hcl = passport_array[4]
+            hcl = hcl[5:]
+            try: int(hcl,16)
+            except: print("\033[35m\tINVALD Hair Color (Format)\t", hcl)
+            else:
+                if (len(hcl) == 6) and (0x000000 <= int(hcl,16) <= 0xFFFFFF): field_num += 1
+                else: print("\033[31m\tINVALD Hair Color (Range)\t", hcl) 
+
+            hgt = passport_array[5]
+            hgt = hgt[4:]
+            if (hgt.find("cm") != -1):
+                hgt = hgt[:hgt.index("cm")]
+                try: int(hgt)
+                except: print("\033[35m\tINVALD Height (Format)\t\t", hgt)
+                else:
+                    if (150 <= int(hgt) <= 193): field_num += 1
+                    else: print("\033[31m\tINVALD Height (Range)\t\t", hgt) 
+            elif (hgt.find("in") != -1):
+                hgt = hgt[:hgt.index("in")]
+                try: int(hgt)
+                except: print("\033[35m\tINVALD Height (Format)\t\t", hgt)
+                else:
+                    if (59 <= int(hgt) <= 76): field_num += 1
+                    else: print("\033[31m\tINVALD Height (Range)\t\t", hgt) 
+            else: print("\033[35m\tINVALD Height (Format)\t\t", hgt)
+
+            iyr = passport_array[6]
+            iyr = iyr[4:]
+            try: int(iyr)
+            except: print("\033[35m\tINVALD Issue Year (Format)\t", iyr)
+            else:
+                 if (2010 <= int(iyr) <= 2020): field_num += 1
+                 else: print("\033[31m\tINVALD Issue Year (Range)\t", iyr)
+
+            pid = passport_array[7]
+            pid = pid[4:]
+            try: int(pid)
+            except: print("\033[35m\tINVALD ID (Format)\t\t", pid)
+            else:
+                 if (len(pid) == 9 ): field_num += 1
+                 else: print("\033[31m\tINVALD ID (Range)\t\t", pid)
+
         if (field_num == 14): valid_count += 1
         else: print("\033[31m", end='\r')
         print("Line ",i,"\tPassport#",total_passports," Vaild count:", valid_count,"\t ", passport_all,"\033[0m")
