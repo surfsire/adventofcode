@@ -1157,3 +1157,8 @@ ecl:gry
 eyr:2030 hcl:#1976b0
 cid:127 pid:701862616
 hgt:161cm
+
+======= FAKE ======
+
+byr:0000 iyr:0000 eyr:0000 hgt:0000 hcl:0000 ecl:0000 pid:12345678 cid:0000
+
