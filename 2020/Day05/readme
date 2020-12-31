@@ -10,4 +10,5 @@ Part One:
     What is the highest seat ID on a boarding pass?
 
 Part Two:
-    
+    Your seat wasn't at the very front or back, though; the seats with IDs +1 and -1 from yours will be in your list.
+    What is the ID of your seat?
