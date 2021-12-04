@@ -1,0 +1,9 @@
+https://adventofcode.com/2021/day/1
+
+--- Day 1: Sonar Sweep ---
+
+Part One:
+    How many measurements are larger than the previous measurement?
+
+Part Two:
+    Consider sums of a three-measurement sliding window. How many sums are larger than the previous sum?
